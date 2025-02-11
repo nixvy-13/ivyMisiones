@@ -1,0 +1,38 @@
+{
+    "infoMisiones": [
+      {
+        "titulo": "Ejercicio (Ligera)",
+        "descripcion": "Haz ejercicio durante 10 minutos",
+        "xp": 10
+      },
+      {
+        "titulo": "Leer (Ligera)",
+        "descripcion": "Ponte a leer un libro durante 30 minutos",
+        "xp": 10
+      },
+      {
+        "titulo": "Chatear con amigos",
+        "descripcion": "Ponte al día con un amigo y pregúntale qué es de su vida",
+        "xp": 30
+      }
+    ],
+    "usuarios": [
+      {
+        "id": 1,
+        "nombre": "nixvy13",
+        "password": "ivy",
+        "administrador": "false",
+        "nivel": 1,
+        "xp": 0
+      },
+      {
+        "id": 2,
+        "nombre": "nixmin",
+        "password": "admin",
+        "administrador": "true", 
+        "nivel": 3,
+        "xp": 80
+      }
+    ]
+  }
+  

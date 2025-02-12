@@ -3,8 +3,8 @@ import '../estilos/inicio.css';
 import ServicioMisiones from '../servicios/axios/ServicioMisiones';
 import eliminarMision from './crud-mision/eliminarMision';
 import Modal from './Modal';
-import ProductoEditar from './crud-producto/ProductoEditar';
-import ProductoCrear from './crud-producto/ProductoCrear';
+import MisionEditar from './crud-mision/misionEditar';
+import MisionCrear from './crud-mision/misionCrear';
 
 function Inicio(){
     
@@ -53,7 +53,7 @@ function Inicio(){
   const [form, setForm] = useState({
     nombre: '', 
     dificultad: "",
-    expMinima: "",
+    xpMinima: "",
   });
 
   //////////////////////////////////////
@@ -135,7 +135,7 @@ function Inicio(){
             alert("No se ha podido descargar la información...");
             console.error(error); // Muestra el error en la consola
           });
-      }
+      } 
       // Si no se llenó ningún campo, mostrar un mensaje
       else {
         alert("Por favor, complete al menos un campo para buscar.");
@@ -162,26 +162,26 @@ function Inicio(){
           />
           {errores.nombre && <p className="error">{errores.nombre}</p>}
 
-          {/* Campo de texto para apellidos */}
-          <label htmlFor="apellidos">Precio Mínomo</label>
+          {/* Campo de texto para dificultad de la mision */}
+          <label htmlFor="apellidos">Dificultad de la mision</label>
           <input
-            id="precioMenor"
-            type="text"
-            name="precioMenor"
-            value={form.precioMenor}
+            id="dificutad"
+            type=""
+            name="dificultad"
+            value={form.dificultad}
             onChange={gestionarCambio}
-            placeholder="importe Mínimo"
+            placeholder="dificultad"
           />
         
 
-          <label htmlFor="apellidos">Precio Máximo</label>
+          <label htmlFor="xpMinima">Experiencia Minima</label>
           <input
-            id="precioMayor"
+            id="xpMinima"
             type="text"
-            name="precioMayor"
-            value={form.precioMayor}
+            name="xpMinima"
+            value={form.xpMinima}
             onChange={gestionarCambio}
-            placeholder="importe Máximo"
+            placeholder="xp Minima"
           />
         
 
@@ -220,13 +220,13 @@ function Inicio(){
       {/* Poner por convencion los modales siempre antes de la ultima etiqueta, la vacia, la que marca el principio/fin 
       del return*/}
       <Modal isOpen={modals.editar} onClose={()=>gestionarModal('editar',false)}>
-        <ProductoEditar producto={misionSeleccionada} setInformacion={setInformacion} onClose={()=>gestionarModal('editar',false)}/>
+        <MisionEditar producto={misionSeleccionada} setInformacion={setInformacion} onClose={()=>gestionarModal('editar',false)}/>
       </Modal>
       <Modal isOpen={modals.crear} onClose={()=>gestionarModal('crear',false)}>
-        <ProductoCrear informacion={informacion} setInformacion={setInformacion} onClose={()=>gestionarModal('crear',false)}/>
+        <MisionCrear informacion={informacion} setInformacion={setInformacion} onClose={()=>gestionarModal('crear',false)}/>
       </Modal>
     </>
-
+  
   );
 }
 

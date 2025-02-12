@@ -1,9 +1,8 @@
 import React, {useState } from 'react';
 import '../estilos/inicio.css';
 import ServicioMisiones from '../servicios/axios/ServicioMisiones';
-import eliminarProducto from './crud-producto/eliminarProducto';
+import eliminarMision from './crud-mision/eliminarMision';
 import Modal from './Modal';
-import ProductoConsultar from './crud-producto/ProductoConsultar';
 import ProductoEditar from './crud-producto/ProductoEditar';
 import ProductoCrear from './crud-producto/ProductoCrear';
 
@@ -20,7 +19,6 @@ function Inicio(){
 
   //Guardar estado de los modales, se puede hacer sin mapa, si, pero queda mas bonito y ordenado asi
   const [modals, setModals] = useState({
-    consultar: false,
     editar: false,
     crear: false,
   });                   
@@ -29,12 +27,6 @@ function Inicio(){
   const gestionarModal = (tipoModal, estadoAbierto) => {
     setModals((previoModals) => ({ ...previoModals, [tipoModal]: estadoAbierto }));
   };
-  
-  //Funcion para abrir el modal de consultar
-  const consultarMision = (mision) => {
-    setMisionSeleccionada(mision);
-    gestionarModal('consultar', true);
-  }
   
   //Funcion para editar la informacion de un producto (abriendo su modal)
   const editarMision = (mision) => {
@@ -48,8 +40,8 @@ function Inicio(){
   };
   
   //Funcion para eliminar un producto
-  const borrarMision = (producto) => {
-    eliminarProducto(producto, informacion, setInformacion);
+  const borrarMision = (mision) => {
+    eliminarMision(mision, informacion, setInformacion);
   }
 
   //Funcion para marcar como completa una mision
@@ -124,7 +116,7 @@ function Inicio(){
     if (validar()) {
       // Si el campo "nombre" está lleno, buscar por nombre
       if (form.nombre.trim() !== "") {
-        ServicioInformacion.getPorNombre(form.nombre)
+        ServicioMisiones.getPorNombre(form.nombre)
           .then((response) => {
             setInformacion(response.data); // Actualiza el estado con los resultados
           })
@@ -135,7 +127,7 @@ function Inicio(){
       }
       // Si los campos de precio están llenos, buscar por precio
       else if (form.precioMenor.trim() !== "" || form.precioMayor.trim() !== "") {
-        ServicioInformacion.getPorPrecio(form.precioMenor, form.precioMayor)
+        ServicioMisiones.getPorPrecio(form.precioMenor, form.precioMayor)
           .then((response) => {
             setInformacion(response.data); // Actualiza el estado con los resultados
           })
@@ -198,32 +190,22 @@ function Inicio(){
         </form>
       </div>
       <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Precio (€)</th>
-            <th>URL</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
         <tbody id="productTable">
 
-          {informacion.map((item, index) => (
+          {informacion.map((mision, index) => (
             <tr key={index}>
 
-              <td>{item.id}</td>
-              <td>{item.nombre}</td>
-              <td>{item.precio}</td>
+              <td>{mision.id}</td>
+              <td>{mision.nombre}</td>
+              <td>{mision.xp}</td>
               <td><a href="#">Ver Producto</a></td>
               <td className="actions">
                 {/* LOS ONCLICK SON FLECHAS, IMPORTANTE*/}
                 {/* Importante tambien decirle a la funcion que llama el evento que le estas pasando,
                 es decir, poner el objeto que le pases como parametro
                 */}
-                <button className="edit" onClick={() => editarProducto(item)}>Editar</button>
-                <button className="delete" onClick={() => borrarProducto(item)}>Eliminar</button>
-                <button className="view" onClick={() => consultarProducto(item)}>Consultar</button>
+                <button className="edit" onClick={() => editarMision(mision)}>Editar</button>
+                <button className="delete" onClick={() => borrarMision(mision)}>Eliminar</button>
               </td>
             </tr>
 
@@ -234,14 +216,11 @@ function Inicio(){
         </tbody>
       </table>
 
-      <button className="add-aficion-btn" onClick={crearAficion}>Añadir Producto</button>
+      <button className="add-mision-btn" onClick={crearMision}>Publicar Mision</button>
       {/* Poner por convencion los modales siempre antes de la ultima etiqueta, la vacia, la que marca el principio/fin 
       del return*/}
-      <Modal isOpen={modals.consultar} onClose={()=>gestionarModal('consultar',false)}>
-        <ProductoConsultar producto={productoSeleccionado}/>
-      </Modal>
       <Modal isOpen={modals.editar} onClose={()=>gestionarModal('editar',false)}>
-        <ProductoEditar producto={productoSeleccionado} setInformacion={setInformacion} onClose={()=>gestionarModal('editar',false)}/>
+        <ProductoEditar producto={misionSeleccionada} setInformacion={setInformacion} onClose={()=>gestionarModal('editar',false)}/>
       </Modal>
       <Modal isOpen={modals.crear} onClose={()=>gestionarModal('crear',false)}>
         <ProductoCrear informacion={informacion} setInformacion={setInformacion} onClose={()=>gestionarModal('crear',false)}/>

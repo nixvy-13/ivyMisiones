@@ -1,7 +1,7 @@
-import ServicioInformacion from "../../servicios/axios/ServicioInformacion";
+import ServicioMisiones from '../../servicios/axios/ServicioMisiones';
 import Swal from 'sweetalert2';
 
-const eliminarProducto = (producto, informacion, setInformacion) => {
+const eliminarMision = (producto, informacion, setInformacion) => {
 //Saca un alert que pide una confirmacion y hace un .then, si la confirmacion es positiva procede con el borrado a no ser
 //que haya un fallo dentro del borrado per se
     Swal.fire({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import ServicioInformacion from '../../servicios/axios/ServicioInformacion';
+import ServicioMisiones from '../../servicios/axios/ServicioMisiones';
 
 function MisionEditar({producto, setInformacion, onClose}) {
   // Almacenar los errores del formulario

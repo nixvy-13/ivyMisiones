@@ -8,14 +8,15 @@ function App() {
 
   return (
     <div className="App">
-      <header className='App-header'>
-        <MenuSuperior
+      <MenuSuperior
         exp={exp}
         nivel={nivel}
-        />
-      </header>
+      />
       <main>
+        {/* Contenido principal aquí */}
+        <Routes>
           
+        </Routes>
       </main>
     </div>
   )

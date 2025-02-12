@@ -1,0 +1,10 @@
+.App {
+    padding-top: 120px; /* Ajusta este valor según la altura de tu navbar */
+}
+
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}

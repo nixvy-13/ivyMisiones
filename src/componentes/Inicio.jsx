@@ -83,23 +83,11 @@ function Inicio(){
     }
 
     // Validar que los precios sean números válidos si se han introducido
-    if (form.precioMenor.trim() && !Number.isInteger(Number(form.precioMenor))) {
-      nuevosErrores.precioMenor = 'El precio mínimo de  be ser un número entero.';
-    }
-    if (form.precioMayor.trim() && !Number.isInteger(Number(form.precioMayor))) {
-      nuevosErrores.precioMayor = 'El precio máximo debe ser un número entero.';
-    }
+    
 
-    // Validar que el precio mínimo no sea negativo
-    if (form.precioMenor.trim() && Number(form.precioMenor) < 0) {
-      nuevosErrores.precioMenor = 'El precio mínimo no puede ser negativo.';
-    } 
+    // Validar que el precio mínimo no sea negativo 
 
     // Solo validar la comparación si ambos precios están establecidos
-    if (form.precioMenor.trim() && form.precioMayor.trim() && 
-        Number(form.precioMenor) > Number(form.precioMayor)) {
-      nuevosErrores.precioMenor = 'El precio mínimo no puede ser mayor que el precio máximo.';
-    }
 
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -125,9 +113,9 @@ function Inicio(){
             console.error(error); // Muestra el error en la consola
           });
       }
-      // Si los campos de precio están llenos, buscar por precio
-      else if (form.precioMenor.trim() !== "" || form.precioMayor.trim() !== "") {
-        ServicioMisiones.getPorPrecio(form.precioMenor, form.precioMayor)
+      // Si el campo de xpMinima esta lleno buscar por xpMinima
+      else if (form.xpMinima.trim() !== "") {
+        ServicioMisiones.getPorXp(form.xpMinima)
           .then((response) => {
             setInformacion(response.data); // Actualiza el estado con los resultados
           })
@@ -135,7 +123,18 @@ function Inicio(){
             alert("No se ha podido descargar la información...");
             console.error(error); // Muestra el error en la consola
           });
-      } 
+      }
+        // Si el campo de dificultad está lleno, buscar por dificultad
+      else if (form.dificultad.trim() !== "") {
+        ServicioMisiones.getPorDificultad(form.dificultad)
+          .then((response) => {
+            setInformacion(response.data); // Actualiza el estado con los resultados
+          })
+          .catch((error) => {
+            alert("No se ha podido descargar la información...");
+            console.error(error); // Muestra el error en la consola
+          });
+      }
       // Si no se llenó ningún campo, mostrar un mensaje
       else {
         alert("Por favor, complete al menos un campo para buscar.");
@@ -148,73 +147,75 @@ function Inicio(){
 
   return (
     <>
-      <div className="filters">
-        <form onSubmit={enviarFormulario}>
-          {/* Campo de texto para nombre */}
-          <label htmlFor="nombre">Nombre</label>
-          <input
-            id="nombre"
-            type="text"
-            name="nombre"
-            value={form.nombre}
-            onChange={gestionarCambio}
-            placeholder="Escribe tu nombre"
-          />
-          {errores.nombre && <p className="error">{errores.nombre}</p>}
+      {/* Update the filters form structure */}
+<div className="filters">
+  <form onSubmit={enviarFormulario}>
+    <div className="form-group">
+      <label htmlFor="nombre">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        name="nombre"
+        value={form.nombre}
+        onChange={gestionarCambio}
+        placeholder="Escribe el nombre de la mision"
+      />
+    </div>
 
-          {/* Campo de texto para dificultad de la mision */}
-          <label htmlFor="apellidos">Dificultad de la mision</label>
-          <input
-            id="dificutad"
-            type=""
-            name="dificultad"
-            value={form.dificultad}
-            onChange={gestionarCambio}
-            placeholder="dificultad"
-          />
-        
+    <div className="form-group">
+      <label htmlFor="dificultad">Dificultad</label>
+      <select
+        id="dificultad"
+        name="dificultad"
+        value={form.dificultad}
+        onChange={gestionarCambio}
+      >
+        <option value="">Seleccione una dificultad</option>
+        <option value="facil">Fácil</option>
+        <option value="media">Medio</option>
+        <option value="dificil">Difícil</option>
+        <option value="maestro">Maestro</option>
+      </select>
+    </div>
 
-          <label htmlFor="xpMinima">Experiencia Minima</label>
-          <input
-            id="xpMinima"
-            type="text"
-            name="xpMinima"
-            value={form.xpMinima}
-            onChange={gestionarCambio}
-            placeholder="xp Minima"
-          />
-        
+    <div className="form-group">
+      <label htmlFor="xpMinima">Experiencia Minima</label>
+      <input
+        id="xpMinima"
+        type="text"
+        name="xpMinima"
+        value={form.xpMinima}
+        onChange={gestionarCambio}
+        placeholder="xp Minima"
+      />
+    </div>
 
-          <button type="submit">Bucar</button>
-          <button type="button">Limpiar</button>
-        </form>
+    <div className="button-group">
+      <button type="submit">Buscar</button>
+      <button type="button">Limpiar</button>
+    </div>
+  </form>
+</div>
+
+{/* Update the card structure */}
+<div className="card-container">
+  {informacion.map((mision, index) => (
+    <div className="card" key={index}>
+      <h3>{mision.titulo}</h3>
+      <div className="xp">XP: {mision.xp}</div>
+      <div className="description">{mision.descripcion}</div>
+      <div className="actions">
+        <div className="top-buttons">
+          <button onClick={() => editarMision(mision)}>Editar</button>
+          <button onClick={() => borrarMision(mision)}>Eliminar</button>
+        </div>
+        <button className="complete" onClick={() => completarMision(mision)}>
+          Completar Misión
+        </button>
       </div>
-      <table>
-        <tbody id="productTable">
-
-          {informacion.map((mision, index) => (
-            <tr key={index}>
-
-              <td>{mision.id}</td>
-              <td>{mision.nombre}</td>
-              <td>{mision.xp}</td>
-              <td><a href="#">Ver Producto</a></td>
-              <td className="actions">
-                {/* LOS ONCLICK SON FLECHAS, IMPORTANTE*/}
-                {/* Importante tambien decirle a la funcion que llama el evento que le estas pasando,
-                es decir, poner el objeto que le pases como parametro
-                */}
-                <button className="edit" onClick={() => editarMision(mision)}>Editar</button>
-                <button className="delete" onClick={() => borrarMision(mision)}>Eliminar</button>
-              </td>
-            </tr>
-
-
-          ))}
-
-
-        </tbody>
-      </table>
+    </div>
+  ))}
+</div>
 
       <button className="add-mision-btn" onClick={crearMision}>Publicar Mision</button>
       {/* Poner por convencion los modales siempre antes de la ultima etiqueta, la vacia, la que marca el principio/fin 

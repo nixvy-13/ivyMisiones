@@ -9,16 +9,13 @@ class ServicioMisiones {
     return http.get(`/infoMisiones?nombre=${nombre}`);
   } 
 
-  /*getPorPrecio(precioMenor,precioSuperior){
-    let url= "/informacion?"
-    if (precioMenor){
-      url+=`precio_gt=${precioMenor}`
-    }
-    if (precioSuperior){
-      url+=`&precio_lt=${precioSuperior}`
-    }
-    return http.get(url);
-  }*/
+  getPorXp(xpMinima) {
+    return http.get(`/infoMisiones?xp_gte=${xpMinima}`);
+  }
+
+  getPorDificultad(dificultad) {
+    return http.get(`/infoMisiones?dificultad=${dificultad}`);
+  }
 
   get(id) {
     return http.get(`/infoMisiones/${id}`);

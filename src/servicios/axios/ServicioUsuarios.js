@@ -5,6 +5,11 @@ class ServicioUsuarios {
      return http.get("/usuarios");
    }  
 
+   login(usuario) {
+    return http.get(`/usuarios?nombre=${usuario}`);
+    //http://localhost:3000/usuarios?nombre=agustin&pass=123
+ }
+
    getPorNombre(nombre) {
     return http.get(`/usuarios?nombre=${nombre}`);
   } 

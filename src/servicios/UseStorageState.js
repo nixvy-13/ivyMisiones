@@ -14,7 +14,7 @@ function UseStorageState(clave, valorInicial) {
     // Guarda el estado en localStorage cada vez que cambie
     LocalStorageServicio.set(clave, state);
     
-  }, [state]);
+  }, [clave, state]);
 
   return [state, setState];
 }

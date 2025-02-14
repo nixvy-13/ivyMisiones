@@ -33,7 +33,8 @@
     {
       "id": "1",
       "nombre": "nixvy13",
-      "password": "ivy",
+      "password": "$2b$10$hRxYFke/7mFnbtCqVc7mF.XuZVV1B3qE/c3QrS8nT9FLlEAunZXoq",
+      "pista": "ivy",
       "administrador": "false",
       "nivel": 1,
       "xp": 0
@@ -41,7 +42,8 @@
     {
       "id": "2",
       "nombre": "nixmin",
-      "password": "admin",
+      "password": "$2b$10$7yF3INFAzmPMg/f31m9hleXH/yDpyPS2eQDaMQ1hNqSdFLTlcOSLS",
+      "pista": "admin",
       "administrador": "true",
       "nivel": 3,
       "xp": 80

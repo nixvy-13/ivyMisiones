@@ -5,19 +5,25 @@ import {Routes, Route } from 'react-router-dom';
 import Inicio from './componentes/Inicio';
 import Pagina404 from './componentes/Pagina404';  
 import Login from './componentes/login';
-import { AuthProvider } from './login/AuthProvider';
+import { AuthProvider, useAuth } from './login/AuthProvider';
 import RutasProtegidas from './login/RutasProtegidas'
 
 function App() {
-  const [exp, setExp] = useState(0)
+
+  const [nombre, setNombre] = useState("Usuario")
   const [nivel, setNivel] = useState(1)
+  const [xp, setXp] = useState(0)
 
   return (
     <AuthProvider>
       <div className="App">
       <MenuSuperior
-        exp={exp}
-        nivel={nivel}
+      nombre={nombre}
+      setNombre={setNombre}
+      nivel={nivel}
+      setNivel={setNivel}
+      xp={xp}
+      setXp={setXp}
       />
       <main>
         {/* Contenido principal aquí */}
@@ -31,8 +37,8 @@ function App() {
           />
 
           <Route
-              path="/"
-                element={<Login/>}
+              path="/login"
+              element={<Login/>}
           />
 
           <Route path="*" element={<Pagina404 />} />

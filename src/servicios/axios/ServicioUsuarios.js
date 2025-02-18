@@ -41,6 +41,10 @@ class ServicioUsuarios {
   create(data) {
     return http.post("/usuarios", data);
   }
+
+  parchear(id, data) {
+    return http.patch(`/usuarios/${id}`, data);
+  }
 }
 
 export default new ServicioUsuarios();

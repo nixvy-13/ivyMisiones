@@ -32,7 +32,8 @@ const Login = () => {
           const esCorrecta = bcrypt.compareSync(password,hashUsuario)
 
           if(esCorrecta){
-            login(response.data[0].nombre);
+            //Importante guardar el objeto usuario y no simplemente un atributo del mismo
+            login(response.data[0]);
             navigate('/');
           }else { 
             setError('Usuario incorrecto')

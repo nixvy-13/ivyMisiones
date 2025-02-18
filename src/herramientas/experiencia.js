@@ -1,12 +1,7 @@
-export function calcularNivel(nivel, setNivel,exp){
-    if(nivel === 1){
-        if(exp >= 100){
-            setNivel(2)
-        }
-    }else{
-        let expNecesaria = (100 * nivel)*1.2;
-        if(exp >= expNecesaria){
-            setNivel(nivel+1)
-        }
+export function calcularExpNecesaria(nivel){
+    let xpNecesaria = 100
+    if(nivel != 1){
+        xpNecesaria = (100 * nivel)*1.2;
     }
+    return xpNecesaria
 }

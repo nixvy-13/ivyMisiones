@@ -1,13 +1,17 @@
-import React, {useState } from 'react';
+import React, {useState} from 'react';
 import '../estilos/inicio.css';
 import ServicioMisiones from '../servicios/axios/ServicioMisiones';
 import eliminarMision from './crud-mision/eliminarMision';
 import Modal from './Modal';
 import MisionEditar from './crud-mision/misionEditar';
 import MisionCrear from './crud-mision/misionCrear';
+import { useAuth } from '../login/AuthProvider';
+import confirmarMision from './crud-mision/confirmarMision';
 
 function Inicio(){
-    
+//Almacenar el usuario que se esta usando
+const {user} = useAuth()
+
 // Almacenar los errores del Formulario
   const [errores, setErrores] = useState({});
   
@@ -45,8 +49,8 @@ function Inicio(){
   }
 
   //Funcion para marcar como completa una mision
-  const completarMision = () => {
-    marcarMisionCompleta(mision);
+  const completarMision = (mision, user) => {
+    confirmarMision(mision, user);
   }
 
   // Amacenar los valores del formulario(En todo momento!!!) 
@@ -81,13 +85,10 @@ function Inicio(){
     if (form.nombre.trim() && !/^[a-zA-Z\s]+$/.test(form.nombre)) {
       nuevosErrores.nombre = 'El nombre solo puede contener letras y espacios.';
     }
-
-    // Validar que los precios sean números válidos si se han introducido
-    
-
-    // Validar que el precio mínimo no sea negativo 
-
-    // Solo validar la comparación si ambos precios están establecidos
+    //Validar experiencia mia
+    if (form.xpMinima.trim() && (isNaN(form.xpMinima) || Number(form.xpMinima) > 1000)) {
+      nuevosErrores.xpMinima = 'La experiencia mínima debe ser un número menor a 1000.';
+    }
 
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -209,7 +210,7 @@ function Inicio(){
           <button onClick={() => editarMision(mision)}>Editar</button>
           <button onClick={() => borrarMision(mision)}>Eliminar</button>
         </div>
-        <button className="complete" onClick={() => completarMision(mision)}>
+        <button className="complete" onClick={() => completarMision(mision, user)}>
           Completar Misión
         </button>
       </div>

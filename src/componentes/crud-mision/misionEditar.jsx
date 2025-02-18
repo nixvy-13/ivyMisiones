@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import ServicioMisiones from '../../servicios/axios/ServicioMisiones';
 
-function MisionEditar({producto, setInformacion, onClose}) {
+function MisionEditar({mision, setInformacion, onClose}) {
   // Almacenar los errores del formulario
   const [errores, setErrores] = useState({});
   
   // Almacenar los valores del formulario
   const [form, setForm] = useState({
-    nombre: producto.nombre,
-    precio: producto.precio,
-    url: producto.url,
-  });
+      titulo: '',
+      descripcion: '',
+      dificultad: '',
+      xp: '',
+    });
 
   //////////////////////////////////////
   // Función para gestionar los cambios en los campos del formulario
@@ -21,7 +22,7 @@ function MisionEditar({producto, setInformacion, onClose}) {
 
     setForm({
       ...form,
-      [name]: name === 'precio' ? Number(value) : value,
+      [name]: name === 'xp' ? Number(value) : value,
     });
   };
 
@@ -31,14 +32,24 @@ function MisionEditar({producto, setInformacion, onClose}) {
   const validar = () => {
     const nuevosErrores = {};
 
-    // Validación para "nombre"
-    if (!form.nombre.trim()) {
-      nuevosErrores.nombre = 'El nombre es obligatorio';
+    // Validación para "titulo"
+    if (!form.titulo.trim()) {
+      nuevosErrores.titulo = 'El título es obligatorio';
     }
 
-    // Validación para "precio"
-    if (form.precio <= 0 || form.precio > 100) {
-      nuevosErrores.precio = 'El precio debe de ser mayor que 0 pero menor que 100';
+    // Validación para "descripcion"
+    if (!form.descripcion.trim()) {
+      nuevosErrores.descripcion = 'La descripción es obligatoria';
+    }
+
+    // Validación para "dificultad"
+    if (!form.dificultad.trim()) {
+      nuevosErrores.dificultad = 'La dificultad es obligatoria';
+    }
+
+    // Validación para "xp"
+    if (form.xp <= 0 || form.xp > 500) {
+      nuevosErrores.xp = 'La experiencia de la misión debe ser entre 1 y 500';
     }
 
     setErrores(nuevosErrores);
@@ -56,62 +67,93 @@ function MisionEditar({producto, setInformacion, onClose}) {
       console.clear();
       console.log('Formulario Enviado', form);
       
-      const editarAficion = {          
-        nombre: form.nombre,
-        precio: form.precio,
-        url: form.url,
+      const editarMision = {
+        titulo: form.titulo,
+        descripcion: form.descripcion,
+        dificultad: form.dificultad,
+        xp: form.xp,
       };
 
       //Enviar por Axios al Json de BD
-      ServicioInformacion.update(producto.id, editarAficion)
+      ServicioMisiones.update(mision.id, editarMision)
       .then(response => {
-        Swal.fire("Afición Actualizada correctamente"); 
+        Swal.fire("Misión actualizada correctamente"); 
         // Limpiar el formulario después de agregar
         setForm({
-          nombre: '',
-          precio: '',
-          url: '',
+          titulo: '',
+          descripcion: '',
+          dificultad: '',
+          xp:'',
         });
 
-        ServicioInformacion.getAll()
+        ServicioMisiones.getAll()
             .then((response) => {
               setInformacion(response.data);
             });
 
-        // Cerrar el modal
+        // Cerrar el modal  
         onClose();
        
       })
       .catch(error => {
-        Swal.fire("ERROR, Al crear producto"); 
+        Swal.fire("ERROR, Al editar mision"); 
       });
     }
   };
 
   return (
     <form onSubmit={enviarFormulario}>
-      {/* Campo de texto para nombre */}
-      <label htmlFor="nombre">Nombre de la Afición Editar</label>
+      {/* Campo de texto para titulo */}
+      <label htmlFor="titulo">Titulo de la misión a añadir</label>
       <input
-        id="nombre"
+        id="titulo"
         type="text"
-        name="nombre"
-        value={form.nombre}
+        name="titulo"
+        value={form.titulo}
         onChange={gestionarCambio}
-        placeholder="Escribe el nombre de la afición"
+        placeholder={mision.titulo}
       />
-      {errores.nombre && <p className="error">{errores.nombre}</p>}
+      {errores.titulo && <p className="error">{errores.titulo}</p>}
 
-      {/* Campo de texto para precio */}
-      <label htmlFor="precio">Descripción del Precio</label>
+      {/* Campo de texto para descripción */}
+      <label htmlFor="descripcion">Descripción de la misión</label>
       <textarea
-        id="precio"
-        name="precio"
-        value={form.precio}
+        id="descripcion"
+        type="text"
+        name="descripcion"
+        value={form.descripcion}
         onChange={gestionarCambio}
-        placeholder="Especifica el precio"
+        placeholder={mision.descripcion}
       />
-      {errores.precio && <p className="error">{errores.precio}</p>}
+      {errores.descripcion && <p className="error">{errores.descripcion}</p>}
+
+      {/* Campo de options para dificultad */}
+      <label htmlFor="dificultad">Dificultad</label>
+      <select
+        id="dificultad"
+        name="dificultad"
+        value={form.dificultad}
+        onChange={gestionarCambio}
+      >
+        <option value="">Seleccione una dificultad</option>
+        <option value="facil">Fácil</option>
+        <option value="media">Media</option>
+        <option value="dificil">Difícil</option>
+        <option value="maestro">Maestro</option>
+      </select>
+      {errores.dificultad && <p className="error">{errores.dificultad}</p>}
+
+      {/* Campo numerico para xp */}
+      <label htmlFor="xp">XP de la misión</label>
+      <input
+        id="xp"
+        type="number"
+        name="xp"
+        value={form.xp}
+        onChange={gestionarCambio}
+        placeholder={mision.xp}
+      />
+      {errores.xp && <p className="error">{errores.xp}</p>}
 
       {/* Botón de envío */}
       <button type="submit">Enviar</button>

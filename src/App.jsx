@@ -6,6 +6,7 @@ import Inicio from './componentes/Inicio';
 import Pagina404 from './componentes/Pagina404';  
 import Login from './componentes/login';
 import { AuthProvider } from './login/AuthProvider';
+import RutasProtegidas from './login/RutasProtegidas'
 
 function App() {
   const [exp, setExp] = useState(0)
@@ -21,13 +22,18 @@ function App() {
       <main>
         {/* Contenido principal aquí */}
         <Routes>
-          
-        <Route
-              path="/"
-              element={<Login/>}
-            />
 
-          <Route path='/inicio' element={<Inicio/>} />
+          <Route path='/' element={
+            <RutasProtegidas>
+              <Inicio/>
+            </RutasProtegidas>
+            }
+          />
+
+          <Route
+              path="/"
+                element={<Login/>}
+          />
 
           <Route path="*" element={<Pagina404 />} />
         

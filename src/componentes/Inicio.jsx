@@ -30,7 +30,7 @@ function Inicio(){
   
   //Funcion para editar la informacion de un producto (abriendo su modal)
   const editarMision = (mision) => {
-    setProductoSeleccionado(mision);
+    setMisionSeleccionada(mision);
     gestionarModal('editar', true);
   }
 
@@ -221,7 +221,7 @@ function Inicio(){
       {/* Poner por convencion los modales siempre antes de la ultima etiqueta, la vacia, la que marca el principio/fin 
       del return*/}
       <Modal isOpen={modals.editar} onClose={()=>gestionarModal('editar',false)}>
-        <MisionEditar producto={misionSeleccionada} setInformacion={setInformacion} onClose={()=>gestionarModal('editar',false)}/>
+        <MisionEditar mision={misionSeleccionada} setInformacion={setInformacion} onClose={()=>gestionarModal('editar',false)}/>
       </Modal>
       <Modal isOpen={modals.crear} onClose={()=>gestionarModal('crear',false)}>
         <MisionCrear informacion={informacion} setInformacion={setInformacion} onClose={()=>gestionarModal('crear',false)}/>

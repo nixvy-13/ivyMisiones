@@ -33,8 +33,8 @@ const Login = () => {
 
           if(esCorrecta){
             login(response.data[0].nombre);
-            navigate('/inicio');
-          }else {
+            navigate('/');
+          }else { 
             setError('Usuario incorrecto')
           }
         } else {

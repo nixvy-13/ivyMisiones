@@ -44,8 +44,11 @@
       "pista": "ivy",
       "administrador": "false",
       "nivel": 1,
-      "xp": 0,
-      "historial":{}
+      "xp": 110,
+      "historial": {
+        "1": 8,
+        "2": 2
+      }
     },
     {
       "id": "2",
@@ -55,7 +58,7 @@
       "administrador": "true",
       "nivel": 3,
       "xp": 80,
-      "historial":{}
+      "historial": {}
     }
   ]
 }

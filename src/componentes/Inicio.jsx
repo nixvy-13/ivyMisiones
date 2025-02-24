@@ -7,13 +7,16 @@ import MisionEditar from './crud-mision/misionEditar';
 import MisionCrear from './crud-mision/misionCrear';
 import { useAuth } from '../login/AuthProvider';
 import confirmarMision from './crud-mision/confirmarMision';
+import MisionesDetalles from './crud-mision/detallesMision';
 
 function Inicio(){
 //Almacenar el usuario que se esta usando
-const {user} = useAuth()
+const {user, setUser} = useAuth()
 
 // Almacenar los errores del Formulario
   const [errores, setErrores] = useState({});
+
+  const [detallesVisible, setDetallesVisible] = useState(false);
   
   //Almacena la informacion del json, lo recoje del enviar formulario
   const [informacion, setInformacion] = useState([])
@@ -25,7 +28,11 @@ const {user} = useAuth()
   const [modals, setModals] = useState({
     editar: false,
     crear: false,
-  });                   
+  });
+
+  const toggleDetalles = () => {
+    setDetallesVisible(!detallesVisible);
+  };
 
   //Funcion para cambiar el estado del mapa de modales
   const gestionarModal = (tipoModal, estadoAbierto) => {
@@ -49,8 +56,8 @@ const {user} = useAuth()
   }
 
   //Funcion para marcar como completa una mision
-  const completarMision = (mision, user) => {
-    confirmarMision(mision, user);
+  const completarMision = (mision) => {
+    confirmarMision(mision, user, setUser, user);
   }
 
   // Amacenar los valores del formulario(En todo momento!!!) 
@@ -210,7 +217,7 @@ const {user} = useAuth()
           <button onClick={() => editarMision(mision)}>Editar</button>
           <button onClick={() => borrarMision(mision)}>Eliminar</button>
         </div>
-        <button className="complete" onClick={() => completarMision(mision, user)}>
+        <button className="complete" onClick={() => completarMision(mision)}>
           Completar Misión
         </button>
       </div>
@@ -219,6 +226,11 @@ const {user} = useAuth()
 </div>
 
       <button className="add-mision-btn" onClick={crearMision}>Publicar Mision</button>
+      <button className="add-mision-btn" onClick={toggleDetalles}>Detalles</button>
+
+      <Modal isOpen={detallesVisible} onClose={()=>toggleDetalles()}>
+        <MisionesDetalles informacion={informacion}/>
+      </Modal>
       {/* Poner por convencion los modales siempre antes de la ultima etiqueta, la vacia, la que marca el principio/fin 
       del return*/}
       <Modal isOpen={modals.editar} onClose={()=>gestionarModal('editar',false)}>

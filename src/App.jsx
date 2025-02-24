@@ -7,6 +7,7 @@ import Pagina404 from './componentes/Pagina404';
 import Login from './componentes/login';
 import { AuthProvider, useAuth } from './login/AuthProvider';
 import RutasProtegidas from './login/RutasProtegidas'
+import Todas from './componentes/todas';
 
 function App() {
 
@@ -32,6 +33,13 @@ function App() {
           <Route path='/' element={
             <RutasProtegidas>
               <Inicio/>
+            </RutasProtegidas>
+            }
+          />
+
+          <Route path='/todas' element={
+            <RutasProtegidas>
+              <Todas/>
             </RutasProtegidas>
             }
           />

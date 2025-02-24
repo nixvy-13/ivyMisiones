@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import { Book } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import "../estilos/menuSuperior.css";
 import { useAuth } from '../login/AuthProvider'
 
@@ -25,8 +26,9 @@ const MenuSuperior = ({nombre, setNombre, nivel, setNivel, xp, setXp}) => {
         <span className="level-indicator">Lvl {nivel} • {xp} XP</span>
         
         <div className="nav-container">
-            <button className="nav-button">Inicio</button>
-            <button className="nav-button">Detalles</button>
+            <button className="nav-button"><Link to="/">Inicio</Link></button>
+            <button className="nav-button"><Link to="/">Detalles</Link></button>
+            <button className="nav-button"><Link to="/todas">Todas</Link></button>
             <button className='nav-button'>Cerrar Sesion</button>
         </div>
 

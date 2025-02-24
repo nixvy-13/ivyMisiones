@@ -1,11 +1,11 @@
 {
   "infoMisiones": [
     {
-      "id": "1",
       "titulo": "Ejercicio",
       "descripcion": "Haz ejercicio durante 10 minutos",
       "dificultad": "facil",
-      "xp": 10
+      "xp": 20,
+      "id": "1"
     },
     {
       "id": "2",
@@ -37,9 +37,9 @@
       "pista": "ivy",
       "administrador": "false",
       "nivel": 1,
-      "xp": 2836,
+      "xp": 2897,
       "historial": {
-        "1": 9,
+        "1": 14,
         "2": 2,
         "3": 1
       }
@@ -54,5 +54,27 @@
       "xp": 80,
       "historial": {}
     }
-  ]
+  ],
+  "objetos": [
+      {
+        "url": "/imagenes/espada.webp",
+        "nombre": "Espada",
+        "precio": 7
+      },
+      {
+        "url": "/imagenes/pistola.webp",
+        "nombre": "Pistola",
+        "precio": 9
+      },
+      {
+        "url": "/imagenes/balas.webp",
+        "nombre": "Balas",
+        "precio": 2
+      },
+      {
+        "url": "/imagenes/armadura.webp",
+        "nombre": "Armadura",
+        "precio": 30
+      }
+    ]
 }

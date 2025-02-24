@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import '../estilos/inicio.css';
 import ServicioMisiones from '../servicios/axios/ServicioMisiones';
 import eliminarMision from './crud-mision/eliminarMision';
@@ -52,12 +52,12 @@ const {user, setUser} = useAuth()
   
   //Funcion para eliminar un producto
   const borrarMision = (mision) => {
-    eliminarMision(mision, informacion, setInformacion);
+    eliminarMision(mision, informacion, setInformacion, user, setUser);
   }
 
   //Funcion para marcar como completa una mision
   const completarMision = (mision) => {
-    confirmarMision(mision, user, setUser, user);
+    confirmarMision(mision, user, setUser);
   }
 
   // Amacenar los valores del formulario(En todo momento!!!) 

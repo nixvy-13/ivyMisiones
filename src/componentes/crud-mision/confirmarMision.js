@@ -1,51 +1,29 @@
-import { calcularExpNecesaria} from "../../herramientas/experiencia";
 import ServicioUsuarios from "../../servicios/axios/ServicioUsuarios";
-import { buscarMision } from "../../herramientas/misiones";
 import Swal from "sweetalert2";
 
-const confirmarMision = (mision, usuario) => {
-    console.log("invocando a confirmarMision");
-    
-    // Primero obtenemos el usuario actual para tener el historial más reciente
-    ServicioUsuarios.get(usuario.id)
-        .then(response => {
-            const usuarioActual = response.data;
-            
-            // Actualizamos la experiencia
-            ServicioUsuarios.parchear(usuario.id, { xp: (usuarioActual.xp + mision.xp) })
-                .catch(error => {
-                    console.error("Error al actualizar la experiencia:", error);
-                });
-
-            // Actualizamos el historial
-            const historialActual = usuarioActual.historial || {};
-            const cantidadActual = historialActual[mision.id] || 0;
-            
-            const nuevoHistorial = {
-                ...historialActual,
-                [mision.id]: cantidadActual + 1
-            };
-
-            ServicioUsuarios.parchear(usuario.id, { historial: nuevoHistorial })
-                .then(() => {
-                    Swal.fire({
-                        title: '¡Misión completada!',
-                        text: `Has ganado ${mision.xp} puntos de experiencia`,
-                        icon: 'success'
-                    });
-                })
-                .catch(error => {
-                    console.error("Error al actualizar historial:", error);
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'No se pudo actualizar el historial',
-                        icon: 'error'
-                    });
-                });
+const confirmarMision = (mision, user, setUser) => {
+  ServicioUsuarios.get(user.id)
+    .then(response => {
+      const usuarioActual = response.data;
+      // Actualiza el XP y el historial en la BD
+      ServicioUsuarios.parchear(user.id, { xp: usuarioActual.xp + mision.xp })
+        .then(() => {
+          const nuevoHistorial = {
+            ...usuarioActual.historial,
+            [mision.id]: (usuarioActual.historial?.[mision.id] || 0) + 1
+          };
+          return ServicioUsuarios.parchear(user.id, { historial: nuevoHistorial });
         })
-        .catch(error => {
-            console.error("Error al obtener usuario:", error);
-        });
+        .then(() => {
+          // Ahora sí: vuelve a obtener el usuario y actualiza AuthProvider
+          return ServicioUsuarios.get(user.id);
+        })
+        .then(refrescado => {
+          setUser(refrescado.data);  // Esto guarda en local storage y actualiza el contexto
+          Swal.fire('¡Misión completada!', `Has ganado ${mision.xp} puntos de experiencia`, 'success');
+        })
+        .catch(err => console.error(err));
+    });
 };
 
-export default confirmarMision
+export default confirmarMision;

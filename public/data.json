@@ -27,13 +27,6 @@
       "dificultad": "media",
       "xp": 14,
       "id": "39cb"
-    },
-    {
-      "id": "2353",
-      "titulo": "Encajar cumplidos",
-      "descripcion": "No se tia, no decir que va si soy fea cada vez que te digan que eres guapa o algo ",
-      "dificultad": "dificil",
-      "xp": 500
     }
   ],
   "usuarios": [
@@ -44,10 +37,11 @@
       "pista": "ivy",
       "administrador": "false",
       "nivel": 1,
-      "xp": 110,
+      "xp": 2836,
       "historial": {
-        "1": 8,
-        "2": 2
+        "1": 9,
+        "2": 2,
+        "3": 1
       }
     },
     {

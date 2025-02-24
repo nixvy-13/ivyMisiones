@@ -15,9 +15,13 @@ const DetalleCarrito = ({ objetos, setObjetos , total, setTotal}) => {
   
   }
   function incrementarPorCantidad(objeto, cantidad){
-    setObjetos(incrementarCantidadEspecifica(objetos, objeto.nombre, cantidad));
+    if(objeto.cantidad + cantidad <= 10){
+      setObjetos(incrementarCantidadEspecifica(objetos, objeto.nombre, cantidad));
     
-    setTotal(total + (objeto.precio * cantidad));
+      setTotal(total + (objeto.precio * cantidad));
+    }else{
+      alert("No puedes añadir mas de 10 objetos iguales")
+    }
   }
 
   return (

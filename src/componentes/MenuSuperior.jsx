@@ -9,7 +9,7 @@ import ModalCarro from './DetalleCarrito';
 const MenuSuperior = ({nombre, setNombre, nivel, setNivel, xp, setXp, objetos}) => {
   
   const { user } = useAuth();
-
+  const { logout } = useAuth();
   const [carritoVisible, setCarritoVisible] = useState(false);
 
   const toggleCarrito = () => {
@@ -38,7 +38,8 @@ const MenuSuperior = ({nombre, setNombre, nivel, setNivel, xp, setXp, objetos}) 
             <button className="nav-button"><Link to="/detalles">Detalles</Link></button>
             <button className="nav-button"><Link to="/compra">Compra</Link></button>
             <button className="nav-button"><Link to="/carro">Carro</Link></button>
-            <button className='nav-button'>Cerrar Sesion</button>
+            <button className="nav-button"><Link to="/administrador">Administrador</Link></button>
+            <button className='nav-button' onClick={logout} >Cerrar Sesion</button>
         </div>
 
         <button className="icon-button" onClick={toggleCarrito}>

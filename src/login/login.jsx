@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../login/AuthProvider'
+import { useAuth } from './AuthProvider'
 import bcrypt from 'bcryptjs'
 import ServicioUsuarios from '../servicios/axios/ServicioUsuarios';
+import '../estilos/login.css'
 
-const Login = () => {
+const Login = ({
+  recordarSesion,
+  setRecordarSesion,
+  permitirNotificaciones,
+  setPermitirNotificaciones,
+}) => {
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,15 +31,16 @@ const Login = () => {
     ServicioUsuarios.login(usuario)
       .then((response) => {
         if (response.data.length !== 0) {
-
           const usuario = response.data[0]
           const hashUsuario = usuario.password
+          console.log(usuario.administrador);
 
           const esCorrecta = bcrypt.compareSync(password,hashUsuario)
 
           if(esCorrecta){
-            //Importante guardar el objeto usuario y no simplemente un atributo del mismo
-            login(response.data[0]);
+            if(!permitirNotificaciones)
+              alert("Cuidado, voy a usar Storage")
+            login(response.data[0], usuario.administrador);
             navigate('/');
           }else { 
             setError('Usuario incorrecto')
@@ -49,10 +56,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label>Usuario</label>
           <input
             type="text"
@@ -61,7 +68,7 @@ const Login = () => {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -70,7 +77,25 @@ const Login = () => {
             required
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
+        <div className="form-group">
+          <label htmlFor="recordarSesion">Recordar sesión</label>
+          <input
+            id="recordarSesion"
+            type="checkbox"
+            checked={recordarSesion}
+            onChange={(e) => setRecordarSesion(e.target.checked)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="permitirNotificaciones">Permitir notificaciones</label>
+          <input
+            id="permitirNotificaciones"
+            type="checkbox"
+            checked={permitirNotificaciones}
+            onChange={(e) => setPermitirNotificaciones(e.target.checked)}
+          />
+        </div>
         <button type="submit">Login</button>
       </form>
     </div>

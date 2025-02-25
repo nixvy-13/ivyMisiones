@@ -4,7 +4,7 @@ import MenuSuperior from './componentes/MenuSuperior'
 import {Routes, Route } from 'react-router-dom';
 import Inicio from './componentes/Inicio';
 import Pagina404 from './componentes/Pagina404';  
-import Login from './componentes/login';
+import Login from './login/login';
 import { AuthProvider, useAuth } from './login/AuthProvider';
 import RutasProtegidas from './login/RutasProtegidas'
 import Todas from './componentes/todas';
@@ -12,10 +12,21 @@ import UseStorageState from './servicios/UseStorageState';
 import ServicioObjetos from './servicios/axios/ServicioObjetos';
 import ListaImagenes from './componentes/cuerpo';
 import DetalleCarrito from './componentes/DetalleCarrito';
+import LocalStorageServicio from './servicios/storage';
+import Administrador from './componentes/administrador';
 
 function App() {
 
   const [info, setInfo] = useState([])
+
+  const [recordarSesion, setRecordarSesion] = UseStorageState(
+    "recordarSesion",
+    false
+  );
+  const [permitirNotificaciones, setPermitirNotificaciones] = UseStorageState(
+    "permitirNoficaciones",
+    false
+  );
 
   useEffect(() => {
     ServicioObjetos.getAll()
@@ -33,6 +44,9 @@ function App() {
   const [xp, setXp] = useState(0)
   const [objetos, setObjetos] = UseStorageState("objetos",[]);
   const [total, setTotal] = UseStorageState("total", 0);
+
+  //Si no esta pulsado recordar sesion entonces la quita del local storage. Primero la guarda siempre, luego decide si quedarsela
+  if (!recordarSesion) LocalStorageServicio.remove("usuario");
 
   return (
     <AuthProvider>
@@ -66,7 +80,7 @@ function App() {
 
           <Route path='/compra' element={
             <RutasProtegidas>
-              <ListaImagenes total={total} setTotal={setTotal} objetos={objetos} setObjetos={setObjetos} info={info}/>
+              <ListaImagenes total={total} setTotal={setTotal} objetos={objetos} setObjetos={setObjetos} info={info} permitirNotificaciones={permitirNotificaciones}/>
             </RutasProtegidas>
             }
           />
@@ -78,9 +92,23 @@ function App() {
             }
           />
 
+            <Route
+              path="/administrador"
+              element={
+                <RutasProtegidas>
+                  <Administrador />
+                </RutasProtegidas>
+              }
+            />
+
           <Route
               path="/login"
-              element={<Login/>}
+              element={<Login
+                recordarSesion={recordarSesion}
+                setRecordarSesion={setRecordarSesion}
+                permitirNotificaciones={permitirNotificaciones}
+                setPermitirNotificaciones={setPermitirNotificaciones}
+                />}
           />
 
           <Route path="*" element={<Pagina404 />} />

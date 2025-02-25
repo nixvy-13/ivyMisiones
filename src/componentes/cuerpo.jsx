@@ -1,30 +1,33 @@
 import { buscarObjeto , incrementarCantidad } from '../herramientas/buscarProducto';
 import '../estilos/cuerpo.css';
-
+import { ToastContainer, toast } from "react-toastify";
 
 // Componente ListaImagenes
-const ListaImagenes = ({ total, setTotal , objetos, setObjetos , info}) => {
+const ListaImagenes = ({ total, setTotal , objetos, setObjetos , info, permitirNotificaciones}) => {
   
-  const AnadirProducto = (nombre, precio) => {    
+  const notify = (producto, cantidadTotal) => {
+    toast(`Uso de Storage: se ha añadido ${producto} al carrito`);
+    toast(
+      `Uso de Storage: se ha cambiado el importe total a ${cantidadTotal} Euros`
+    );
+  }
+  
+  const AnadirProducto = (nombre, precio) => {
     
-    
-    setTotal(total + precio);    
+    let totalActualizado = parseInt(total) + parseInt(precio);    
+    setTotal(totalActualizado);
 
     let objetoAnadir= buscarObjeto(info,nombre)
 
     if(buscarObjeto(objetos,nombre)===null){     
-      
+
       setObjetos([...objetos,
+      
         { url: objetoAnadir.url, nombre: objetoAnadir.nombre, precio: objetoAnadir.precio, cantidad:1 }])
-
     }else{
-
       setObjetos(incrementarCantidad(objetos , nombre))
-
     }
-
-    
-   
+    if (permitirNotificaciones) notify(nombre, totalActualizado);   
   };
 
   return (
@@ -39,6 +42,7 @@ const ListaImagenes = ({ total, setTotal , objetos, setObjetos , info}) => {
           </button>
         </div>
       ))}
+    <ToastContainer />
     </div>
   );
 };

@@ -37,9 +37,9 @@
       "pista": "ivy",
       "administrador": "false",
       "nivel": 1,
-      "xp": 2897,
+      "xp": 2917,
       "historial": {
-        "1": 14,
+        "1": 15,
         "2": 2,
         "3": 1
       }
@@ -56,25 +56,29 @@
     }
   ],
   "objetos": [
-      {
-        "url": "/imagenes/espada.webp",
-        "nombre": "Espada",
-        "precio": 7
-      },
-      {
-        "url": "/imagenes/pistola.webp",
-        "nombre": "Pistola",
-        "precio": 9
-      },
-      {
-        "url": "/imagenes/balas.webp",
-        "nombre": "Balas",
-        "precio": 2
-      },
-      {
-        "url": "/imagenes/armadura.webp",
-        "nombre": "Armadura",
-        "precio": 30
-      }
-    ]
+    {
+      "url": "/imagenes/espada.webp",
+      "nombre": "Espada",
+      "precio": 7,
+      "id": "5868"
+    },
+    {
+      "url": "/imagenes/pistola.webp",
+      "nombre": "Pistola",
+      "precio": 9,
+      "id": "789c"
+    },
+    {
+      "url": "/imagenes/balas.webp",
+      "nombre": "Balas",
+      "precio": 2,
+      "id": "c817"
+    },
+    {
+      "url": "/imagenes/armadura.webp",
+      "nombre": "Armadura",
+      "precio": 30,
+      "id": "941a"
+    }
+  ]
 }
